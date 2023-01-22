@@ -3,7 +3,7 @@ from products.models import *
 # Create your views here.
 def index(request):
     context = {
-        'title' : 'Test Title', 
+        'title' : 'Store', 
         'username': 'maksim',
     }
     return render(request, 'products/index.html', context)

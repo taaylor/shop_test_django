@@ -7,6 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
+        
 
         <title>{{ title }}</title>
 
@@ -32,9 +33,8 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'products:index' %}">Каталог <i class="fas fa-shopping-bag"></i> </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'users:login' %}">Войти <i class="fas fa-sign-in-alt"></i></a>
-                        </li>
+                        {% if user.is_authenticated %}
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -45,17 +45,29 @@
                                     <a class="dropdown-item" href="{% url 'users:profile' %}">Профиль</a>
                                 </li>
                                 <li><a class="dropdown-item" href="orders/orders.html">Заказы</a></li>
-                                <li><a class="dropdown-item" href="#">Админ-панель</a></li>
+                                {% if user.is_superuser or user.is_staff %}
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'admin:index' %}">
+                                        Админ-панель
+                                    </a>
+                                </li>
+                                {% endif %}
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" href="{% url 'users:logout' %}">
                                         Выйти
                                     </a>
                                 </li>
                             </ul>
                         </li>
+
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'users:login' %}">Войти <i class="fas fa-sign-in-alt"></i></a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
