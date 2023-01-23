@@ -1,0 +1,16 @@
+.clear_basket{
+    color: #fff;
+    background-color: #ffe600;
+    border-color: #28a745;
+    padding: 0.5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-radius: 0.3rem;
+    
+}
+
+.clear_basket:hover{
+    text-decoration: none;
+    color: #fff;
+    transition: all .15s ease-in-out;
+}
