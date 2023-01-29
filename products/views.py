@@ -53,4 +53,25 @@ def basket_remove(request, basket_id):
 def basket_remove_all(request):
     basket = Basket.objects.all()
     basket.delete()
-    return HttpResponseRedirect(request.META['HTTP_REFERER'])       
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])      
+
+def minus(request, product_id):
+    baskets = Basket.objects.filter(user=request.user, product=Product.objects.get(id=product_id))
+   
+    if baskets.exists():
+        basket = baskets.first()   
+        if basket.quantity > 1:   
+            basket.quantity -= 1
+            basket.save()       
+        else:
+            baskets.delete()
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+def plus(request, product_id):
+    baskets = Basket.objects.filter(user=request.user, product=Product.objects.get(id=product_id))
+   
+    if baskets.exists():
+        basket = baskets.first()   
+        basket.quantity += 1
+        basket.save()       
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])

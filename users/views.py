@@ -3,9 +3,10 @@ from django.contrib import auth, messages
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
+
 # from users.models import User
 from users.forms import UserLoginForm, UserRegisterForm, UserProfileForm
-from products.models import Basket
+from products.models import Basket, Product
 
 def login(request):
     if request.method == 'POST':
