@@ -1,16 +1,22 @@
-from django import forms
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
+import uuid
+from datetime import timedelta
 
-from users.models import User
+from django import forms
+from django.contrib.auth.forms import (AuthenticationForm, UserChangeForm,
+                                       UserCreationForm)
+from django.utils.timezone import now
+
+from users.models import EmailVerification, User
+
 
 class UserLoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={
-        'class':'form-control py-4',
-        'placeholder':'Введите имя пользователя',
+        'class': 'form-control py-4',
+        'placeholder': 'Введите имя пользователя',
     }))
     password = forms.CharField(widget=forms.PasswordInput(attrs={
-        'class':'form-control py-4',
-        'placeholder':'Введите пароль',
+        'class': 'form-control py-4',
+        'placeholder': 'Введите пароль',
     }))
     class Meta:
         model = User
@@ -18,28 +24,28 @@ class UserLoginForm(AuthenticationForm):
 
 class UserRegisterForm(UserCreationForm):
     first_name = forms.CharField(widget=forms.TextInput(attrs={
-        'class':'form-control py-4',
-        'placeholder':'Введите имя',
+        'class': 'form-control py-4',
+        'placeholder': 'Введите имя',
     }))
     last_name = forms.CharField(widget=forms.TextInput(attrs={
-        'class':'form-control py-4',
-        'placeholder':'Введите фамилию',
+        'class': 'form-control py-4',
+        'placeholder': 'Введите фамилию',
     }))
     username = forms.CharField(widget=forms.TextInput(attrs={
-        'class':'form-control py-4',
-        'placeholder':'Введите имя пользователя',
+        'class': 'form-control py-4',
+        'placeholder': 'Введите имя пользователя',
     }))
     email = forms.CharField(widget=forms.EmailInput(attrs={
-        'class':'form-control py-4',
-        'placeholder':'Введите адрес эл. почты',
+        'class': 'form-control py-4',
+        'placeholder': 'Введите адрес эл. почты',
     }))
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={
-        'class':'form-control py-4',
-        'placeholder':'Введите пароль',
+        'class': 'form-control py-4',
+        'placeholder': 'Введите пароль',
     }))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={
-        'class':'form-control py-4',
-        'placeholder':'Подтверждение пароля',
+        'class': 'form-control py-4',
+        'placeholder': 'Подтверждение пароля',
     }))
 
     class Meta:
@@ -47,12 +53,19 @@ class UserRegisterForm(UserCreationForm):
         fields = ['first_name', 'last_name', 'username', 
         'email', 'password1', 'password2']
 
+    def save(self):
+        user = super(UserRegisterForm, self).save(commit=True)
+        experation = now() + timedelta(hours=48)
+        record = EmailVerification.objects.create(code=uuid.uuid4(), user=user, experation=experation)
+        record.send_verification_email()
+        return user
+
 class UserProfileForm(UserChangeForm):
 
     first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4',}))
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control py-4'}))
-    image = forms.ImageField(widget=forms.FileInput(attrs={'class':'custom-file-input'}), required=False)
-    username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control py-4', 'readonly':True}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4'}))
+    image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'custom-file-input'}), required=False)
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4', 'readonly':True}))
     email = forms.CharField(widget=forms.EmailInput(attrs={'class': 'form-control py-4', 'readonly':True}))
 
     class Meta:

@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block content %}
+    {% if request.user.id == user.id %}
     <div class="container">
         <div class="row">
             <div class="col-lg-7">
@@ -27,7 +28,7 @@
                         class="img-thumbnail">
                 </div>
 
-                <form action="{% url 'users:profile' %}" method="post" enctype="multipart/form-data">
+                <form action="{% url 'users:profile' user.id %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
 
                     <div class="form-row">
@@ -74,6 +75,9 @@
             </div>
         </div>
     </div>
+    {% else %}
+        <h2 class="mt-4 text-center">Нет доступа</h2>
+    {% endif %}
 {% endblock %}
 
 
