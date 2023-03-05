@@ -29,7 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-DOMAIN_NAME = 'http://localhost:8000'
+DOMAIN_NAME = 'http://127.0.0.1:8000'
 
 # Application definition
 
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 
     'debug_toolbar',
 
@@ -54,6 +55,7 @@ INSTALLED_APPS = [
 
     'products',
     'users',
+    'orders',
 ]
 
 MIDDLEWARE = [
@@ -227,4 +229,8 @@ CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
 
 
+#stripe
 
+STRIPE_PUBLIC_KEY = 'pk_test_51MhyQsDBLj5mMjSvsQjVqdgn8co1EBrN42CL4AiwT0mYXSEHFCIGoZy58RVeJUJ9st91uaN04463UWqou8qsg4BY00p4JARcMt'
+STRIPE_SECRET_KEY = 'sk_test_51MhyQsDBLj5mMjSvZZYb1EJZfzSVMn1VHFdUjiz29wkpp0F0BxTyT83skyfT9jDrL1iD2lr5Edc1tx5DmHtL23sv000khL84eU'
+STRIPE_WEBHOOK_SECRET = 'whsec_d578f1effb624070e0880b71d5d737a3f3efb854042a6d61b24540fbaec9cea4'

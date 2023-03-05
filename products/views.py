@@ -1,9 +1,9 @@
 from django.contrib.auth.decorators import login_required
+from django.core.cache import cache
 from django.shortcuts import HttpResponseRedirect
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
-from django.core.cache import cache
 
 from common.views import CommonMixin
 from products.models import *
@@ -31,8 +31,6 @@ class ProductsListView(CommonMixin, ListView):
             queryset = prod
         category_id = self.kwargs.get('category_id')
         return queryset.filter(category_id=category_id) if category_id else queryset
-
-
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ProductsListView, self).get_context_data()
