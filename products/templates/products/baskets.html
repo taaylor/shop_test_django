@@ -14,17 +14,17 @@
                 <li class="list-group-item bg-light">
                     <div class="row text-center align-items-center">
 
-                        <div class="col-lg-2">
+                        <div class="col-lg-1">
                             <a href="{% url 'products:minus' basket.product.id %}">
                                 <i class="fa fa-minus-circle " aria-hidden="true"></i>
                             </a>
                         </div> 
 
-                        <div class="col-lg-2">                      
+                        <div class="col-lg-3">                      
                             <input id="basketID" name="basketID" type="text" class="form-control" value="{{ basket.quantity }}" min="0" disabled>                           
                         </div>
 
-                        <div class="col-lg-2">
+                        <div class="col-lg-1">
                             <a href="{% url 'products:plus' basket.product.id %}">  
                                 <i class="fa fa-plus-circle " aria-hidden="true"></i>
                             </a>

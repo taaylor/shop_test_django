@@ -6,6 +6,7 @@
     <section>
         <div class="container pt-5">
             <div class="text-center mt-5">
+                {% if object_list %}
                 <h1>Заказы</h1>
                 <div class="orders mt-5">
                     <table class="table">
@@ -21,10 +22,11 @@
                         <tbody>
                         
                         {% for order in object_list %}                        
-                        <tr class="{% if order.status == 1 %} table-success {% endif %} 
-                            {% if order.status == 0 %} table-active {% endif %}
-                            {% if order.status == 2 %} table-info {% endif %}
-                            {% if order.status == 3 %} bg-success {% endif %}
+                        <tr class="{% if order.status == 1 %} table-success 
+                            {% elif order.status == 0 %} table-active 
+                            {% elif order.status == 2 %} table-info 
+                            {% elif order.status == 3 %} bg-success 
+                            {% endif %}
                             ">
                             <th scope="row">{{ order.id }}</th>
                             <td>{{ order.get_status_display }}</td>
@@ -38,6 +40,11 @@
                         </tbody>
                     </table>
                 </div>
+                {% else %}
+                <h3 class="mt-6">У вас нету заказов</h3>
+                <p>перейдите в магазин чтобы оформить свой первый <a href="{% url 'products:index' %}">заказ</a></p>
+                {% endif %}
+
             </div>
         </div>
     </section>
