@@ -9,9 +9,10 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-import environ
 import os
 from pathlib import Path
+
+import environ
 
 env = environ.Env(
     DEBUG=(bool),
@@ -74,7 +75,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django_extensions',
-
+    'rest_framework',
+    'rest_framework.authtoken',
     'debug_toolbar',
 
     'allauth',
@@ -88,6 +90,7 @@ INSTALLED_APPS = [
     'products',
     'users',
     'orders',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -215,6 +218,9 @@ else:
     EMAIL_HOST_USER = env('EMAIL_HOST_USER')
     EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
     EMAIL_USE_SSL = env('EMAIL_USE_SSL')
+    EMAIL_USE_TLS = False
+    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 #OAuth
 
@@ -274,3 +280,13 @@ CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:{REDIS_PORT}'
 STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
 STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET')
+
+#REST API
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 6,
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}

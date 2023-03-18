@@ -12,7 +12,7 @@ from common.views import CommonMixin
 from products.models import Basket, Product, User
 # from users.models import User
 from users.forms import UserLoginForm, UserProfileForm, UserRegisterForm
-from users.models import *
+from users.models import EmailVerification
 
 
 class UserLoginView(LoginView):
